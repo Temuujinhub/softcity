@@ -23,11 +23,16 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
   const where: { published: boolean; category?: string } = { published: true };
   if (category && category !== "all") where.category = category;
 
-  const articles = await prisma.article.findMany({
-    where,
-    orderBy: { publishedAt: "desc" },
-    select: { id: true, title: true, slug: true, excerpt: true, category: true, coverImage: true, publishedAt: true },
-  });
+  let articles: Awaited<ReturnType<typeof prisma.article.findMany>> = [];
+  try {
+    articles = await prisma.article.findMany({
+      where,
+      orderBy: { publishedAt: "desc" },
+      select: { id: true, title: true, slug: true, excerpt: true, category: true, coverImage: true, publishedAt: true },
+    });
+  } catch {
+    // DB unavailable
+  }
 
   return (
     <>

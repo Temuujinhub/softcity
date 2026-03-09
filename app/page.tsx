@@ -4,12 +4,16 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getLatestArticles() {
-  return prisma.article.findMany({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-    take: 3,
-    select: { id: true, title: true, slug: true, excerpt: true, category: true, coverImage: true, publishedAt: true },
-  });
+  try {
+    return await prisma.article.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: { id: true, title: true, slug: true, excerpt: true, category: true, coverImage: true, publishedAt: true },
+    });
+  } catch {
+    return [];
+  }
 }
 
 const services = [

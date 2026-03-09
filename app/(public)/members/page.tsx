@@ -9,9 +9,14 @@ export const dynamic = "force-dynamic";
 
 export default async function MembersPage() {
   const session = await getServerSession(authOptions);
-  const contents = session
-    ? await prisma.memberContent.findMany({ where: { published: true } })
-    : [];
+  let contents: Awaited<ReturnType<typeof prisma.memberContent.findMany>> = [];
+  if (session) {
+    try {
+      contents = await prisma.memberContent.findMany({ where: { published: true } });
+    } catch {
+      // DB unavailable
+    }
+  }
 
   if (!session) {
     return (
