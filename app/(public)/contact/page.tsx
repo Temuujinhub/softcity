@@ -1,31 +1,44 @@
-"use client";
+import { prisma } from "@/lib/prisma";
+import ContactForm from "./ContactForm";
 
-import { useState } from "react";
-import type { Metadata } from "next";
+export const dynamic = "force-dynamic";
 
-const externalLinks = [
-  { label: "Facebook", href: "https://www.facebook.com/softcitymongolia" },
+const CONTACT_DEFAULTS = {
+  contact_email: "info@softcity.mn",
+  contact_phone: "",
+  contact_address: "",
+  contact_facebook: "https://www.facebook.com/softcitymongolia",
+};
+
+async function getContactSettings() {
+  try {
+    const rows = await prisma.siteSettings.findMany({
+      where: { key: { in: Object.keys(CONTACT_DEFAULTS) } },
+    });
+    const result = { ...CONTACT_DEFAULTS };
+    for (const row of rows) {
+      if (row.key in result) (result as Record<string, string>)[row.key] = row.value;
+    }
+    return result;
+  } catch {
+    return CONTACT_DEFAULTS;
+  }
+}
+
+const staticLinks = [
   { label: "Gehl Architects", href: "https://www.gehlpeople.com" },
   { label: "Think Softer", href: "https://www.thinksofter.com" },
   { label: "Project for Public Spaces", href: "https://www.pps.org" },
   { label: "Congress for the New Urbanism", href: "https://www.cnu.org" },
 ];
 
-export default function ContactPage() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+export default async function ContactPage() {
+  const contact = await getContactSettings();
 
-  async function handleSubscribe(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("loading");
-    const res = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-    if (res.ok) { setStatus("success"); setEmail(""); }
-    else setStatus("error");
-  }
+  const externalLinks = [
+    { label: "Facebook", href: contact.contact_facebook },
+    ...staticLinks,
+  ];
 
   return (
     <>
@@ -51,50 +64,39 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-semibold text-stone-900">Имэйл</p>
-                  <a href="mailto:info@softcity.mn" className="hover:underline" style={{ color: "#c4734a" }}>
-                    info@softcity.mn
+                  <a href={`mailto:${contact.contact_email}`} className="hover:underline" style={{ color: "#c4734a" }}>
+                    {contact.contact_email}
                   </a>
                 </div>
+                {contact.contact_phone && (
+                  <div>
+                    <p className="font-semibold text-stone-900">Утас</p>
+                    <a href={`tel:${contact.contact_phone}`} className="hover:underline" style={{ color: "#c4734a" }}>
+                      {contact.contact_phone}
+                    </a>
+                  </div>
+                )}
+                {contact.contact_address && (
+                  <div>
+                    <p className="font-semibold text-stone-900">Хаяг</p>
+                    <p>{contact.contact_address}</p>
+                  </div>
+                )}
                 <div>
                   <p className="font-semibold text-stone-900">Facebook</p>
                   <a
-                    href="https://www.facebook.com/softcitymongolia"
+                    href={contact.contact_facebook}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline"
                     style={{ color: "#c4734a" }}
                   >
-                    facebook.com/softcitymongolia
+                    {contact.contact_facebook.replace("https://www.", "")}
                   </a>
                 </div>
               </div>
 
-              {/* Newsletter */}
-              <div className="mt-12 p-8 bg-stone-50">
-                <h3 className="font-bold text-stone-900 mb-2">Мэйл бүртгэл</h3>
-                <p className="text-stone-600 text-sm mb-4">Зөөлөн хотын мэдээ, мэдээллийг хүлээн авах.</p>
-                {status === "success" ? (
-                  <p className="font-semibold" style={{ color: "#c4734a" }}>Амжилттай бүртгэгдлээ!</p>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex gap-2">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Мейл хаяг"
-                      required
-                      className="flex-1 border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:border-stone-500"
-                    />
-                    <button
-                      type="submit"
-                      disabled={status === "loading"}
-                      className="bg-stone-900 text-white px-4 py-2 text-sm font-semibold hover:bg-stone-800 transition-colors disabled:opacity-50"
-                    >
-                      {status === "loading" ? "..." : "Бүртгэх"}
-                    </button>
-                  </form>
-                )}
-              </div>
+              <ContactForm />
             </div>
 
             {/* Links + partner */}
@@ -124,7 +126,7 @@ export default function ContactPage() {
                   Зөөлөн хотын шийдэл НҮТББ-тай хамтрах, санхүүжилт, хандив өгөх болон бусад асуудлаар холбоо бариарай.
                 </p>
                 <a
-                  href="mailto:info@softcity.mn"
+                  href={`mailto:${contact.contact_email}`}
                   className="inline-block px-6 py-3 font-semibold text-sm transition-colors"
                   style={{ backgroundColor: "#c4734a" }}
                 >

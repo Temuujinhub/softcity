@@ -13,6 +13,7 @@ const adminNav = [
   { href: "/admin/members", label: "Гишүүний агуулга" },
   { href: "/admin/users", label: "Хэрэглэгчид" },
   { href: "/admin/subscribers", label: "Мейл бүртгэл" },
+  { href: "/admin/settings", label: "Тохиргоо" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -3,6 +3,28 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+const HERO_DEFAULTS = {
+  hero_image_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80",
+  hero_title: "Зөөлөн хот",
+  hero_subtitle: "Хүний хэмжээний, тогтвортой, амьдрахад таатай хот байгуулалтыг Монголд дэлгэрүүлж байна.",
+  hero_badge: "Зөөлөн хотын шийдэл НҮТББ",
+};
+
+async function getSiteSettings() {
+  try {
+    const rows = await prisma.siteSettings.findMany({
+      where: { key: { in: Object.keys(HERO_DEFAULTS) } },
+    });
+    const result = { ...HERO_DEFAULTS };
+    for (const row of rows) {
+      if (row.key in result) (result as Record<string, string>)[row.key] = row.value;
+    }
+    return result;
+  } catch {
+    return HERO_DEFAULTS;
+  }
+}
+
 async function getLatestArticles() {
   try {
     return await prisma.article.findMany({
@@ -41,7 +63,10 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function HomePage() {
-  const articles = await getLatestArticles();
+  const [articles, siteSettings] = await Promise.all([
+    getLatestArticles(),
+    getSiteSettings(),
+  ]);
 
   return (
     <>
@@ -52,7 +77,7 @@ export default async function HomePage() {
       >
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80"
+            src={siteSettings.hero_image_url}
             alt="Hero"
             className="w-full h-full object-cover opacity-50"
           />
@@ -60,13 +85,13 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold tracking-[0.2em] uppercase text-stone-300 mb-4">
-              Зөөлөн хотын шийдэл НҮТББ
+              {siteSettings.hero_badge}
             </p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              Зөөлөн хот
+              {siteSettings.hero_title}
             </h1>
             <p className="text-lg sm:text-xl text-stone-200 leading-relaxed mb-10 max-w-xl">
-              Хүний хэмжээний, тогтвортой, амьдрахад таатай хот байгуулалтыг Монголд дэлгэрүүлж байна.
+              {siteSettings.hero_subtitle}
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
