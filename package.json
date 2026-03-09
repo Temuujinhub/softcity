@@ -4,17 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "db:seed": "npx tsx prisma/seed.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.0",
     "@next/font": "^14.2.15",
-    "@prisma/adapter-libsql": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "@tiptap/pm": "^3.20.1",
     "@tiptap/react": "^3.20.1",
