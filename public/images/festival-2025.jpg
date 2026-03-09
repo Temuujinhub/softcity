@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c4734a"/>
+      <stop offset="100%" style="stop-color:#8b4d2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#1c1c1c"/>
+  <!-- Audience silhouettes -->
+  <ellipse cx="160" cy="680" rx="40" ry="60" fill="#111"/>
+  <ellipse cx="260" cy="675" rx="38" ry="55" fill="#0e0e0e"/>
+  <ellipse cx="360" cy="678" rx="42" ry="58" fill="#111"/>
+  <ellipse cx="460" cy="672" rx="39" ry="52" fill="#0e0e0e"/>
+  <ellipse cx="560" cy="676" rx="41" ry="56" fill="#111"/>
+  <ellipse cx="660" cy="674" rx="38" ry="54" fill="#0e0e0e"/>
+  <ellipse cx="760" cy="678" rx="40" ry="57" fill="#111"/>
+  <ellipse cx="860" cy="675" rx="39" ry="53" fill="#0e0e0e"/>
+  <ellipse cx="960" cy="677" rx="41" ry="58" fill="#111"/>
+  <ellipse cx="1060" cy="673" rx="38" ry="52" fill="#0e0e0e"/>
+  <ellipse cx="1160" cy="676" rx="40" ry="55" fill="#111"/>
+  <!-- Stage light beams -->
+  <polygon points="400,0 200,600 600,600" fill="#c4734a" opacity="0.08"/>
+  <polygon points="640,0 440,600 840,600" fill="#fff" opacity="0.05"/>
+  <polygon points="880,0 680,600 1080,600" fill="#c4734a" opacity="0.08"/>
+  <!-- Stage -->
+  <rect x="200" y="540" width="880" height="120" fill="#2a2a2a"/>
+  <rect x="200" y="538" width="880" height="4" fill="#c4734a" opacity="0.6"/>
+  <!-- Presenter silhouette -->
+  <ellipse cx="640" cy="490" rx="22" ry="22" fill="#333"/>
+  <rect x="618" y="510" width="44" height="70" fill="#333"/>
+  <!-- Text -->
+  <text x="640" y="300" font-family="serif" font-size="48" fill="#c4734a" text-anchor="middle" opacity="0.9">Зөөлөн хот фестиваль</text>
+  <text x="640" y="360" font-family="serif" font-size="32" fill="#fff" text-anchor="middle" opacity="0.7">2025</text>
+</svg>
