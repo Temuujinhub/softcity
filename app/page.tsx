@@ -52,7 +52,7 @@ export default async function HomePage() {
       >
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/hero-bg.svg"
+            src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80"
             alt="Hero"
             className="w-full h-full object-cover opacity-50"
           />
@@ -143,7 +143,7 @@ export default async function HomePage() {
             </div>
             <div className="aspect-video bg-stone-800 overflow-hidden relative">
               <img
-                src="/images/festival-2025.svg"
+                src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=1280&q=80"
                 alt="Зөөлөн хот фестиваль 2025"
                 className="w-full h-full object-cover opacity-80"
               />
