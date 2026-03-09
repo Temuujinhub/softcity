@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { label: "НҮҮР", href: "/" },
@@ -51,15 +52,37 @@ const navItems = [
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const { data: session } = useSession();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const transparent = isHome && !scrolled;
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-stone-200">
+    <header
+      className="sticky top-0 z-50 transition-all duration-400"
+      style={{
+        backgroundColor: transparent ? "rgba(0,0,0,0)" : "white",
+        borderBottom: transparent ? "1px solid rgba(255,255,255,0.12)" : "1px solid #e7e5e4",
+        backdropFilter: transparent ? "none" : "none",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-bold text-xl text-stone-900 tracking-tight">
+            <span
+              className="font-bold text-xl tracking-tight transition-colors duration-300"
+              style={{ color: transparent ? "white" : "#1c1c1c" }}
+            >
               ЗӨӨЛӨН ХОТ
             </span>
           </Link>
@@ -75,7 +98,8 @@ export default function Nav() {
               >
                 <Link
                   href={item.href}
-                  className="px-3 py-2 text-xs font-semibold text-stone-700 hover:text-stone-900 tracking-wide transition-colors"
+                  className="px-3 py-2 text-xs font-semibold tracking-wide transition-colors duration-300"
+                  style={{ color: transparent ? "rgba(255,255,255,0.85)" : "#44403c" }}
                 >
                   {item.label}
                 </Link>
@@ -123,7 +147,8 @@ export default function Nav() {
 
           {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 text-stone-700"
+            className="lg:hidden p-2 transition-colors duration-300"
+            style={{ color: transparent ? "white" : "#374151" }}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
