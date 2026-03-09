@@ -1,30 +1,113 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2d2a26"/>
-      <stop offset="100%" style="stop-color:#1a1714"/>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1b2d"/>
+      <stop offset="60%" stop-color="#1a2d40"/>
+      <stop offset="100%" stop-color="#2d3a2e"/>
     </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4734a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#c4734a" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="75%" cy="20%" r="8%">
+      <stop offset="0%" stop-color="#f5e6c8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#f5e6c8" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="1920" height="1080" fill="url(#g)"/>
-  <!-- City skyline silhouette -->
-  <rect x="0" y="700" width="1920" height="380" fill="#111"/>
-  <rect x="100" y="550" width="80" height="150" fill="#222"/>
-  <rect x="200" y="480" width="60" height="220" fill="#1e1e1e"/>
-  <rect x="280" y="520" width="100" height="180" fill="#252525"/>
-  <rect x="400" y="440" width="70" height="260" fill="#1a1a1a"/>
-  <rect x="490" y="500" width="120" height="200" fill="#222"/>
-  <rect x="630" y="460" width="90" height="240" fill="#1e1e1e"/>
-  <rect x="740" y="490" width="60" height="210" fill="#252525"/>
-  <rect x="820" y="420" width="110" height="280" fill="#1a1a1a"/>
-  <rect x="950" y="470" width="80" height="230" fill="#222"/>
-  <rect x="1050" y="510" width="95" height="190" fill="#1e1e1e"/>
-  <rect x="1165" y="450" width="75" height="250" fill="#252525"/>
-  <rect x="1260" y="490" width="110" height="210" fill="#1a1a1a"/>
-  <rect x="1390" y="430" width="85" height="270" fill="#222"/>
-  <rect x="1495" y="480" width="70" height="220" fill="#1e1e1e"/>
-  <rect x="1585" y="510" width="100" height="190" fill="#252525"/>
-  <rect x="1700" y="460" width="80" height="240" fill="#1a1a1a"/>
-  <rect x="1800" y="500" width="120" height="200" fill="#222"/>
-  <!-- Warm accent line -->
-  <rect x="0" y="698" width="1920" height="2" fill="#c4734a" opacity="0.3"/>
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <!-- Moon glow -->
+  <circle cx="1450" cy="180" r="55" fill="#f5e6c8" opacity="0.15"/>
+  <circle cx="1450" cy="180" r="35" fill="#f5e6c8" opacity="0.25"/>
+  <circle cx="1450" cy="180" r="22" fill="#f5e6c8" opacity="0.7"/>
+  <!-- Stars -->
+  <circle cx="200" cy="80" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="450" cy="50" r="1" fill="white" opacity="0.5"/>
+  <circle cx="700" cy="100" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="900" cy="40" r="1" fill="white" opacity="0.4"/>
+  <circle cx="1100" cy="70" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="1300" cy="30" r="1" fill="white" opacity="0.5"/>
+  <circle cx="1600" cy="90" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="1750" cy="55" r="1" fill="white" opacity="0.4"/>
+  <circle cx="350" cy="130" r="1" fill="white" opacity="0.5"/>
+  <circle cx="600" cy="160" r="1.5" fill="white" opacity="0.3"/>
+  <circle cx="1200" cy="120" r="1" fill="white" opacity="0.6"/>
+  <circle cx="1700" cy="140" r="1.5" fill="white" opacity="0.4"/>
+  <!-- Horizon warm glow -->
+  <rect x="0" y="580" width="1920" height="120" fill="url(#glow)" opacity="0.4"/>
+  <!-- Ground / road -->
+  <rect x="0" y="820" width="1920" height="260" fill="#0d1208"/>
+  <!-- Road -->
+  <rect x="700" y="720" width="520" height="360" fill="#141a10"/>
+  <rect x="950" y="720" width="4" height="360" fill="#c4734a" opacity="0.3"/>
+  <!-- Buildings - back row (darker, smaller) -->
+  <rect x="50" y="480" width="90" height="360" fill="#1a2318" opacity="0.8"/>
+  <rect x="160" y="420" width="70" height="420" fill="#161d14" opacity="0.9"/>
+  <rect x="250" y="460" width="110" height="380" fill="#1c2419"/>
+  <rect x="380" y="390" width="80" height="450" fill="#18201a" opacity="0.9"/>
+  <rect x="480" y="440" width="95" height="400" fill="#1a231b"/>
+  <rect x="590" y="500" width="60" height="340" fill="#161d14" opacity="0.8"/>
+  <!-- Buildings - right side -->
+  <rect x="1280" y="500" width="75" height="340" fill="#161d14" opacity="0.8"/>
+  <rect x="1375" y="430" width="100" height="410" fill="#1a231b" opacity="0.9"/>
+  <rect x="1495" y="460" width="85" height="380" fill="#1c2419"/>
+  <rect x="1600" y="400" width="110" height="440" fill="#18201a" opacity="0.9"/>
+  <rect x="1730" y="450" width="90" height="390" fill="#1a2318"/>
+  <rect x="1840" y="490" width="80" height="350" fill="#161d14"/>
+  <!-- Buildings - front row (taller, warmer accent lights) -->
+  <rect x="80" y="300" width="120" height="540" fill="#1e2820"/>
+  <!-- Window lights - building 1 -->
+  <rect x="95" y="320" width="12" height="8" fill="#c4734a" opacity="0.6"/>
+  <rect x="115" y="320" width="12" height="8" fill="#c4734a" opacity="0.4"/>
+  <rect x="95" y="345" width="12" height="8" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="115" y="345" width="12" height="8" fill="#c4734a" opacity="0.5"/>
+  <rect x="95" y="370" width="12" height="8" fill="#c4734a" opacity="0.3"/>
+  <rect x="95" y="395" width="12" height="8" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="115" y="370" width="12" height="8" fill="#c4734a" opacity="0.6"/>
+  <rect x="95" y="420" width="12" height="8" fill="#c4734a" opacity="0.2"/>
+  <rect x="115" y="420" width="12" height="8" fill="#f5e6c8" opacity="0.3"/>
+
+  <rect x="220" y="250" width="140" height="590" fill="#20291f"/>
+  <!-- Window lights - building 2 -->
+  <rect x="235" y="270" width="14" height="9" fill="#f5e6c8" opacity="0.5"/>
+  <rect x="258" y="270" width="14" height="9" fill="#c4734a" opacity="0.4"/>
+  <rect x="280" y="270" width="14" height="9" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="235" y="298" width="14" height="9" fill="#c4734a" opacity="0.6"/>
+  <rect x="258" y="298" width="14" height="9" fill="#f5e6c8" opacity="0.2"/>
+  <rect x="280" y="298" width="14" height="9" fill="#c4734a" opacity="0.5"/>
+  <rect x="235" y="326" width="14" height="9" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="258" y="326" width="14" height="9" fill="#c4734a" opacity="0.3"/>
+  <rect x="235" y="354" width="14" height="9" fill="#c4734a" opacity="0.5"/>
+  <rect x="280" y="354" width="14" height="9" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="235" y="382" width="14" height="9" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="258" y="382" width="14" height="9" fill="#c4734a" opacity="0.4"/>
+
+  <rect x="1500" y="220" width="160" height="620" fill="#1e2820"/>
+  <!-- Window lights - building right -->
+  <rect x="1515" y="240" width="14" height="9" fill="#c4734a" opacity="0.6"/>
+  <rect x="1538" y="240" width="14" height="9" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="1561" y="240" width="14" height="9" fill="#c4734a" opacity="0.3"/>
+  <rect x="1515" y="268" width="14" height="9" fill="#f5e6c8" opacity="0.5"/>
+  <rect x="1538" y="268" width="14" height="9" fill="#c4734a" opacity="0.4"/>
+  <rect x="1561" y="268" width="14" height="9" fill="#f5e6c8" opacity="0.2"/>
+  <rect x="1515" y="296" width="14" height="9" fill="#c4734a" opacity="0.4"/>
+  <rect x="1561" y="296" width="14" height="9" fill="#c4734a" opacity="0.6"/>
+  <rect x="1515" y="324" width="14" height="9" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="1538" y="324" width="14" height="9" fill="#c4734a" opacity="0.5"/>
+
+  <rect x="1680" y="260" width="130" height="580" fill="#20291f"/>
+  <rect x="1695" y="278" width="12" height="8" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="1715" y="278" width="12" height="8" fill="#c4734a" opacity="0.5"/>
+  <rect x="1735" y="278" width="12" height="8" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="1695" y="304" width="12" height="8" fill="#c4734a" opacity="0.6"/>
+  <rect x="1715" y="304" width="12" height="8" fill="#f5e6c8" opacity="0.3"/>
+  <rect x="1695" y="330" width="12" height="8" fill="#f5e6c8" opacity="0.4"/>
+  <rect x="1735" y="330" width="12" height="8" fill="#c4734a" opacity="0.5"/>
+  <!-- Street lights -->
+  <line x1="660" y1="720" x2="660" y2="820" stroke="#c4734a" stroke-width="2" opacity="0.5"/>
+  <circle cx="660" cy="718" r="6" fill="#f5e6c8" opacity="0.8"/>
+  <line x1="1260" y1="720" x2="1260" y2="820" stroke="#c4734a" stroke-width="2" opacity="0.5"/>
+  <circle cx="1260" cy="718" r="6" fill="#f5e6c8" opacity="0.8"/>
+  <!-- Horizon line glow -->
+  <rect x="0" y="700" width="1920" height="3" fill="#c4734a" opacity="0.2"/>
 </svg>

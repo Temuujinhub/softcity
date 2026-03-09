@@ -1,34 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#c4734a"/>
-      <stop offset="100%" style="stop-color:#8b4d2e"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1008"/>
+      <stop offset="100%" stop-color="#0d0d0d"/>
     </linearGradient>
+    <radialGradient id="spotlight1" cx="40%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#c4734a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#c4734a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="spotlight2" cx="70%" cy="0%" r="50%">
+      <stop offset="0%" stop-color="#f5e6c8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#f5e6c8" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="1280" height="720" fill="#1c1c1c"/>
-  <!-- Audience silhouettes -->
-  <ellipse cx="160" cy="680" rx="40" ry="60" fill="#111"/>
-  <ellipse cx="260" cy="675" rx="38" ry="55" fill="#0e0e0e"/>
-  <ellipse cx="360" cy="678" rx="42" ry="58" fill="#111"/>
-  <ellipse cx="460" cy="672" rx="39" ry="52" fill="#0e0e0e"/>
-  <ellipse cx="560" cy="676" rx="41" ry="56" fill="#111"/>
-  <ellipse cx="660" cy="674" rx="38" ry="54" fill="#0e0e0e"/>
-  <ellipse cx="760" cy="678" rx="40" ry="57" fill="#111"/>
-  <ellipse cx="860" cy="675" rx="39" ry="53" fill="#0e0e0e"/>
-  <ellipse cx="960" cy="677" rx="41" ry="58" fill="#111"/>
-  <ellipse cx="1060" cy="673" rx="38" ry="52" fill="#0e0e0e"/>
-  <ellipse cx="1160" cy="676" rx="40" ry="55" fill="#111"/>
-  <!-- Stage light beams -->
-  <polygon points="400,0 200,600 600,600" fill="#c4734a" opacity="0.08"/>
-  <polygon points="640,0 440,600 840,600" fill="#fff" opacity="0.05"/>
-  <polygon points="880,0 680,600 1080,600" fill="#c4734a" opacity="0.08"/>
-  <!-- Stage -->
-  <rect x="200" y="540" width="880" height="120" fill="#2a2a2a"/>
-  <rect x="200" y="538" width="880" height="4" fill="#c4734a" opacity="0.6"/>
-  <!-- Presenter silhouette -->
-  <ellipse cx="640" cy="490" rx="22" ry="22" fill="#333"/>
-  <rect x="618" y="510" width="44" height="70" fill="#333"/>
-  <!-- Text -->
-  <text x="640" y="300" font-family="serif" font-size="48" fill="#c4734a" text-anchor="middle" opacity="0.9">Зөөлөн хот фестиваль</text>
-  <text x="640" y="360" font-family="serif" font-size="32" fill="#fff" text-anchor="middle" opacity="0.7">2025</text>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <!-- Spotlights -->
+  <rect width="1280" height="720" fill="url(#spotlight1)"/>
+  <rect width="1280" height="720" fill="url(#spotlight2)"/>
+  <!-- Stage floor -->
+  <rect x="0" y="520" width="1280" height="200" fill="#111"/>
+  <rect x="100" y="518" width="1080" height="6" fill="#c4734a" opacity="0.7"/>
+  <!-- Stage podium -->
+  <rect x="480" y="420" width="320" height="100" fill="#1a1208"/>
+  <rect x="480" y="418" width="320" height="4" fill="#c4734a" opacity="0.5"/>
+  <!-- Presenter -->
+  <ellipse cx="640" cy="400" rx="24" ry="24" fill="#2a1e10"/>
+  <rect x="616" y="422" width="48" height="64" rx="4" fill="#2a1e10"/>
+  <rect x="622" y="486" width="16" height="36" fill="#2a1e10"/>
+  <rect x="646" y="486" width="16" height="36" fill="#2a1e10"/>
+  <!-- Microphone stand -->
+  <line x1="640" y1="400" x2="640" y2="370" stroke="#888" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="640" cy="368" rx="6" ry="8" fill="#666" opacity="0.7"/>
+  <!-- Screen / banner behind stage -->
+  <rect x="280" y="180" width="720" height="240" fill="#1e1408" rx="4"/>
+  <rect x="280" y="180" width="720" height="240" fill="none" stroke="#c4734a" stroke-width="2" rx="4" opacity="0.4"/>
+  <text x="640" y="268" font-family="Georgia, serif" font-size="42" fill="#c4734a" text-anchor="middle" opacity="0.9" font-weight="bold">Зөөлөн хот</text>
+  <text x="640" y="318" font-family="Georgia, serif" font-size="24" fill="#f5e6c8" text-anchor="middle" opacity="0.7">Фестиваль 2025</text>
+  <!-- Audience silhouettes - row 3 (back) -->
+  <ellipse cx="80" cy="600" rx="28" ry="40" fill="#0a0a0a"/>
+  <ellipse cx="150" cy="595" rx="26" ry="38" fill="#080808"/>
+  <ellipse cx="220" cy="598" rx="28" ry="42" fill="#0a0a0a"/>
+  <ellipse cx="290" cy="593" rx="25" ry="37" fill="#080808"/>
+  <ellipse cx="360" cy="596" rx="27" ry="39" fill="#0a0a0a"/>
+  <ellipse cx="430" cy="600" rx="28" ry="41" fill="#080808"/>
+  <ellipse cx="840" cy="600" rx="28" ry="41" fill="#080808"/>
+  <ellipse cx="910" cy="595" rx="26" ry="38" fill="#0a0a0a"/>
+  <ellipse cx="980" cy="598" rx="28" ry="42" fill="#080808"/>
+  <ellipse cx="1050" cy="593" rx="25" ry="37" fill="#0a0a0a"/>
+  <ellipse cx="1120" cy="596" rx="27" ry="39" fill="#080808"/>
+  <ellipse cx="1190" cy="600" rx="28" ry="41" fill="#0a0a0a"/>
+  <!-- Audience row 2 -->
+  <ellipse cx="110" cy="640" rx="30" ry="44" fill="#0d0d0d"/>
+  <ellipse cx="190" cy="635" rx="28" ry="42" fill="#0b0b0b"/>
+  <ellipse cx="270" cy="638" rx="30" ry="46" fill="#0d0d0d"/>
+  <ellipse cx="350" cy="633" rx="27" ry="40" fill="#0b0b0b"/>
+  <ellipse cx="430" cy="636" rx="29" ry="43" fill="#0d0d0d"/>
+  <ellipse cx="510" cy="640" rx="30" ry="45" fill="#0b0b0b"/>
+  <ellipse cx="760" cy="640" rx="30" ry="45" fill="#0b0b0b"/>
+  <ellipse cx="840" cy="635" rx="28" ry="42" fill="#0d0d0d"/>
+  <ellipse cx="920" cy="638" rx="30" ry="46" fill="#0b0b0b"/>
+  <ellipse cx="1000" cy="633" rx="27" ry="40" fill="#0d0d0d"/>
+  <ellipse cx="1080" cy="636" rx="29" ry="43" fill="#0b0b0b"/>
+  <ellipse cx="1160" cy="640" rx="30" ry="45" fill="#0d0d0d"/>
+  <!-- Warm floor reflection -->
+  <rect x="100" y="516" width="1080" height="30" fill="#c4734a" opacity="0.08"/>
 </svg>
