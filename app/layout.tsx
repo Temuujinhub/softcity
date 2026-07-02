@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import HideOnAdmin from "@/components/HideOnAdmin";
 
 const inter = Inter_Tight({
   subsets: ["latin", "cyrillic"],
@@ -29,7 +30,9 @@ export default function RootLayout({
         <Providers>
           <Nav />
           <main>{children}</main>
-          <Footer />
+          <HideOnAdmin>
+            <Footer />
+          </HideOnAdmin>
         </Providers>
       </body>
     </html>

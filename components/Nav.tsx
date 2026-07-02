@@ -52,6 +52,7 @@ export default function Nav() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -65,6 +66,9 @@ export default function Nav() {
   }, [pathname]);
 
   const transparent = isHome && !scrolled && !menuOpen;
+
+  // Админ хэсэгт үндсэн цэсийг харуулахгүй — админы sidebar-тай давхардана
+  if (isAdmin) return null;
 
   return (
     <header
