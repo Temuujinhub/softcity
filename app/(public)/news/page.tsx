@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import PageHeader from "@/components/PageHeader";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Мэдээлэл, нийтлэл | Зөөлөн хот" };
@@ -45,27 +46,20 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
 
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#c4734a" }}>
-            Агуулга
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold">Мэдээлэл, нийтлэл</h1>
-        </div>
-      </section>
+      <PageHeader label="Агуулга" title="Мэдээлэл, нийтлэл" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-20">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           {/* Category filter */}
-          <div className="flex flex-wrap gap-2 mb-12">
+          <div className="flex flex-wrap gap-2 mb-14">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.value}
                 href={cat.value === "all" ? "/news" : `/news?category=${cat.value}`}
-                className={`px-4 py-2 text-sm font-semibold border transition-colors ${
+                className={`px-5 py-2.5 text-sm font-semibold border transition-colors ${
                   (category || "all") === cat.value
-                    ? "bg-stone-900 text-white border-stone-900"
-                    : "border-stone-300 text-stone-700 hover:border-stone-900"
+                    ? "bg-[#141414] text-white border-[#141414]"
+                    : "border-[#d5cec2] text-[#55504a] hover:border-[#141414]"
                 }`}
               >
                 {cat.label}
@@ -74,31 +68,31 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
           </div>
 
           {articles.length === 0 ? (
-            <div className="text-center py-20 text-stone-500">Мэдээлэл байхгүй байна.</div>
+            <div className="text-center py-20 text-[#8a8479]">Мэдээлэл байхгүй байна.</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
               {articles.map((a) => (
                 <Link key={a.id} href={`/news/${a.slug}`} className="group">
-                  <div className="aspect-video bg-stone-100 mb-4 overflow-hidden">
+                  <div className="aspect-[3/2] bg-[#efe9de] mb-5 overflow-hidden">
                     {a.coverImage ? (
                       <img
                         src={a.coverImage}
                         alt={a.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs">Зураггүй</div>
+                      <div className="w-full h-full" />
                     )}
                   </div>
-                  <span className="text-xs font-bold tracking-wider uppercase" style={{ color: "#c4734a" }}>
+                  <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#c4734a" }}>
                     {CATEGORY_LABELS[a.category] || a.category}
                   </span>
-                  <h2 className="font-bold text-lg text-stone-900 mt-1 group-hover:text-[#c4734a] transition-colors leading-snug">
+                  <h2 className="font-bold text-xl mt-2 group-hover:text-[#c4734a] transition-colors leading-snug">
                     {a.title}
                   </h2>
-                  {a.excerpt && <p className="text-stone-500 text-sm mt-2 line-clamp-2">{a.excerpt}</p>}
+                  {a.excerpt && <p className="text-[#6b655c] text-sm mt-2 line-clamp-2">{a.excerpt}</p>}
                   {a.publishedAt && (
-                    <p className="text-stone-400 text-xs mt-2">
+                    <p className="text-[#a89f90] text-xs mt-3">
                       {new Date(a.publishedAt).toLocaleDateString("mn-MN")}
                     </p>
                   )}

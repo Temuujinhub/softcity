@@ -1,17 +1,20 @@
 import fs from "fs";
 import path from "path";
+import { prisma } from "@/lib/prisma";
+import PageHeader from "@/components/PageHeader";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Зургийн цомог | Зөөлөн хот" };
+export const dynamic = "force-dynamic";
 
-const ALBUMS = [
-  { key: "festival-2025", label: "Зөөлөн хот фестиваль 2025" },
-  { key: "festival-2026", label: "Зөөлөн хот фестиваль 2026" },
-  { key: "general", label: "Ерөнхий" },
-  { key: "uploads", label: "Бусад" },
-];
+const ALBUM_LABELS: Record<string, string> = {
+  "festival-2025": "Зөөлөн хот фестиваль 2025",
+  "festival-2026": "Зөөлөн хот фестиваль 2026",
+  general: "Ерөнхий",
+  uploads: "Бусад",
+};
 
-function getAlbumImages(album: string): string[] {
+function getFsAlbumImages(album: string): string[] {
   const dir = path.join(process.cwd(), "public", "images", album);
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -20,54 +23,62 @@ function getAlbumImages(album: string): string[] {
     .map((f) => `/images/${album}/${f}`);
 }
 
-export default function GalleryPage() {
-  const albums = ALBUMS.map((a) => ({
-    ...a,
-    images: getAlbumImages(a.key),
-  })).filter((a) => a.images.length > 0);
+export default async function GalleryPage() {
+  // Админаас нэмсэн зургууд (DB)
+  let dbImages: { url: string; caption: string | null; album: string }[] = [];
+  try {
+    dbImages = await prisma.galleryImage.findMany({
+      orderBy: [{ album: "asc" }, { order: "asc" }],
+      select: { url: true, caption: true, album: true },
+    });
+  } catch {
+    // DB unavailable
+  }
+
+  // Файл систем дэх хуучин зургуудтай нэгтгэнэ
+  const albumMap = new Map<string, { url: string; caption: string | null }[]>();
+  for (const img of dbImages) {
+    const list = albumMap.get(img.album) || [];
+    list.push({ url: img.url, caption: img.caption });
+    albumMap.set(img.album, list);
+  }
+  for (const key of Object.keys(ALBUM_LABELS)) {
+    const fsImages = getFsAlbumImages(key);
+    if (fsImages.length) {
+      const list = albumMap.get(key) || [];
+      const existing = new Set(list.map((i) => i.url));
+      for (const url of fsImages) {
+        if (!existing.has(url)) list.push({ url, caption: null });
+      }
+      albumMap.set(key, list);
+    }
+  }
+
+  const albums = [...albumMap.entries()]
+    .filter(([, images]) => images.length > 0)
+    .map(([key, images]) => ({ key, label: ALBUM_LABELS[key] || key, images }));
 
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p
-            className="text-xs font-bold tracking-[0.2em] uppercase mb-4"
-            style={{ color: "#c4734a" }}
-          >
-            Медиа
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold">Зургийн цомог</h1>
-        </div>
-      </section>
+      <PageHeader label="Медиа" title="Зургийн цомог" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-20">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           {albums.length === 0 ? (
-            <div className="text-center py-20 text-stone-500">
-              Зураг байхгүй байна.
-            </div>
+            <div className="text-center py-20 text-[#8a8479]">Зураг байхгүй байна.</div>
           ) : (
             albums.map((album) => (
-              <div key={album.key} className="mb-16">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-stone-900 mb-3">
-                    {album.label}
-                  </h2>
-                  <div
-                    className="w-10 h-1"
-                    style={{ backgroundColor: "#c4734a" }}
-                  />
-                </div>
+              <div key={album.key} className="mb-20">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-8 pt-8 border-t border-[#e7e2d9]">
+                  {album.label}
+                </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {album.images.map((url) => (
-                    <div
-                      key={url}
-                      className="group aspect-square overflow-hidden bg-stone-100 cursor-pointer"
-                    >
+                  {album.images.map((img) => (
+                    <div key={img.url} className="group aspect-square overflow-hidden bg-[#efe9de]">
                       <img
-                        src={url}
-                        alt=""
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        src={img.url}
+                        alt={img.caption || ""}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     </div>
                   ))}

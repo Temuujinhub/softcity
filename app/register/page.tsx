@@ -47,8 +47,10 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="font-bold text-2xl text-stone-900">ЗӨӨЛӨН ХОТ</Link>
-          <h1 className="text-2xl font-bold text-stone-900 mt-6 mb-2">Бүртгүүлэх</h1>
-          <p className="text-stone-500 text-sm">Гишүүний хэсэгт нэвтрэх эрх авах</p>
+          <h1 className="text-2xl font-bold text-stone-900 mt-6 mb-2">Имэйлээр бүртгүүлэх</h1>
+          <p className="text-stone-500 text-sm">
+            Бүртгүүлснээр гишүүдэд зориулсан masterclass видео хичээлүүдийг үзэх эрхтэй болно
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white p-8 border border-stone-200 space-y-4">

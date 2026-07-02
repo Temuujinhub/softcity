@@ -4,18 +4,27 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [articleCount, galleryCount, subscriberCount, userCount] = await Promise.all([
-    prisma.article.count(),
-    prisma.galleryImage.count(),
-    prisma.subscriber.count(),
-    prisma.user.count(),
-  ]);
+  const [articleCount, galleryCount, subscriberCount, userCount, eventCount, regCount, masterclassCount, boothPendingCount] =
+    await Promise.all([
+      prisma.article.count(),
+      prisma.galleryImage.count(),
+      prisma.subscriber.count(),
+      prisma.user.count(),
+      prisma.event.count(),
+      prisma.eventRegistration.count(),
+      prisma.memberContent.count(),
+      prisma.boothRequest.count({ where: { status: "pending" } }),
+    ]);
 
   const stats = [
     { label: "Нийтлэл", count: articleCount, href: "/admin/articles", color: "bg-blue-50 border-blue-200" },
     { label: "Зураг", count: galleryCount, href: "/admin/gallery", color: "bg-green-50 border-green-200" },
-    { label: "Бүртгэл", count: subscriberCount, href: "/admin/subscribers", color: "bg-yellow-50 border-yellow-200" },
-    { label: "Хэрэглэгч", count: userCount, href: "/admin/users", color: "bg-purple-50 border-purple-200" },
+    { label: "Мейл захиалагч", count: subscriberCount, href: "/admin/subscribers", color: "bg-yellow-50 border-yellow-200" },
+    { label: "Гишүүд", count: userCount, href: "/admin/users", color: "bg-purple-50 border-purple-200" },
+    { label: "Арга хэмжээ", count: eventCount, href: "/admin/events", color: "bg-orange-50 border-orange-200" },
+    { label: "Арга хэмжээний бүртгэл", count: regCount, href: "/admin/events", color: "bg-rose-50 border-rose-200" },
+    { label: "Masterclass", count: masterclassCount, href: "/admin/members", color: "bg-teal-50 border-teal-200" },
+    { label: "Талбайн хүлээгдэж буй хүсэлт", count: boothPendingCount, href: "/admin/booths", color: "bg-red-50 border-red-200" },
   ];
 
   const recentArticles = await prisma.article.findMany({
@@ -28,7 +37,7 @@ export default async function AdminDashboard() {
       <h1 className="text-2xl font-bold text-stone-900 mb-8">Хяналтын самбар</h1>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10 max-w-5xl">
         {stats.map((s) => (
           <Link key={s.label} href={s.href} className={`p-6 border rounded-lg ${s.color} hover:shadow-sm transition-shadow`}>
             <div className="text-3xl font-bold text-stone-900">{s.count}</div>
@@ -48,7 +57,13 @@ export default async function AdminDashboard() {
             + Зураг нэмэх
           </Link>
           <Link href="/admin/members" className="px-4 py-2 border border-stone-300 text-stone-700 text-sm font-semibold hover:border-stone-700 transition-colors">
-            + Гишүүний агуулга
+            + Masterclass нэмэх
+          </Link>
+          <Link href="/admin/events" className="px-4 py-2 border border-stone-300 text-stone-700 text-sm font-semibold hover:border-stone-700 transition-colors">
+            + Арга хэмжээ нэмэх
+          </Link>
+          <Link href="/admin/content" className="px-4 py-2 border border-stone-300 text-stone-700 text-sm font-semibold hover:border-stone-700 transition-colors">
+            Контент засах
           </Link>
         </div>
       </div>

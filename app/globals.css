@@ -9,8 +9,13 @@ html {
 }
 
 body {
-  background-color: #FAF9F6;
-  color: #1c1c1c;
+  background-color: #faf9f6;
+  color: #141414;
+}
+
+::selection {
+  background: #c4734a;
+  color: #fff;
 }
 
 /* Scroll-line animation for hero indicator */
@@ -22,12 +27,19 @@ body {
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 
+/* Section reveal */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Prose styling for article content */
 .prose h1, .prose h2, .prose h3 {
   font-weight: 700;
-  color: #1c1c1c;
+  color: #141414;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
+  letter-spacing: -0.02em;
 }
 .prose h1 { font-size: 2rem; }
 .prose h2 { font-size: 1.5rem; }

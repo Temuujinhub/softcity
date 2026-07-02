@@ -25,17 +25,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/news" className="text-xs text-stone-400 hover:text-white mb-6 inline-block">
+      <section className="pt-36 pb-12 sm:pt-44 border-b border-[#e7e2d9]">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8">
+          <Link href="/news" className="text-xs text-[#8a8479] hover:text-[#141414] transition-colors mb-6 inline-block">
             ← Мэдээлэл, нийтлэл
           </Link>
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#c4734a" }}>
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#c4734a" }}>
             {CATEGORY_LABELS[article.category] || article.category}
           </p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-tight">{article.title}</h1>
+          <h1 className="text-4xl sm:text-6xl font-bold leading-[1.05] tracking-tight">{article.title}</h1>
           {article.publishedAt && (
-            <p className="mt-4 text-stone-400 text-sm">
+            <p className="mt-5 text-[#8a8479] text-sm">
               {new Date(article.publishedAt).toLocaleDateString("mn-MN")}
             </p>
           )}
@@ -43,7 +43,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </section>
 
       {article.coverImage && (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 mt-12">
           <img
             src={article.coverImage}
             alt={article.title}
@@ -52,10 +52,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       )}
 
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-14">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8">
           {article.excerpt && (
-            <p className="text-xl text-stone-600 leading-relaxed mb-8 pb-8 border-b border-stone-200">
+            <p className="text-xl text-[#55504a] leading-relaxed mb-8 pb-8 border-b border-[#e7e2d9]">
               {article.excerpt}
             </p>
           )}

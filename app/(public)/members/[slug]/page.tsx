@@ -2,7 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
+import PageHeader from "@/components/PageHeader";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 
 export const dynamic = "force-dynamic";
 
@@ -16,30 +17,23 @@ export default async function MemberContentPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/members" className="text-xs text-stone-400 hover:text-white mb-6 inline-block">
-            ← Гишүүний хэсэг
-          </Link>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-tight">{content.title}</h1>
-        </div>
-      </section>
+      <PageHeader
+        label="Masterclass"
+        title={content.title}
+        backHref="/members"
+        backLabel="Гишүүний хэсэг"
+      />
 
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {content.description && (
-            <p className="text-xl text-stone-600 leading-relaxed mb-8">{content.description}</p>
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
+          {content.videoUrl && (
+            <YouTubeEmbed url={content.videoUrl} title={content.title} className="mb-10 shadow-xl" />
           )}
 
-          {content.videoUrl && (
-            <div className="aspect-video bg-stone-900 mb-8">
-              <iframe
-                src={content.videoUrl}
-                className="w-full h-full"
-                allowFullScreen
-                title={content.title}
-              />
-            </div>
+          {content.description && (
+            <p className="text-lg sm:text-xl text-[#55504a] leading-relaxed mb-10 max-w-3xl">
+              {content.description}
+            </p>
           )}
 
           {content.fileUrl && (
@@ -47,7 +41,7 @@ export default async function MemberContentPage({ params }: { params: Promise<{ 
               href={content.fileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-3 font-semibold text-white transition-colors"
+              className="inline-block px-8 py-3.5 font-semibold text-white text-sm hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#c4734a" }}
             >
               Файл татах
@@ -55,7 +49,7 @@ export default async function MemberContentPage({ params }: { params: Promise<{ 
           )}
 
           {!content.videoUrl && !content.fileUrl && (
-            <div className="bg-stone-50 p-8 text-center text-stone-500">
+            <div className="bg-white border border-[#e7e2d9] p-10 text-center text-[#8a8479]">
               Агуулга удахгүй нэмэгдэнэ.
             </div>
           )}

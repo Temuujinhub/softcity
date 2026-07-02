@@ -1,72 +1,86 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Бидний ажил | Зөөлөн хот",
 };
+export const dynamic = "force-dynamic";
 
-const categories = [
-  {
-    title: "Төсөл, хөтөлбөр",
-    items: [
-      { label: "Зөөлөн хот фестиваль 2025", href: "/work/projects/festival-2025", desc: "Монголын анхны хот байгуулалт, нийтийн орон зайн фестиваль" },
-      { label: "Зөөлөн хот фестиваль 2026", href: "/work/projects/festival-2026", desc: "2026 оны фестивалийн мэдээлэл удахгүй" },
-    ],
-  },
-  {
-    title: "Сургалт, семинар",
-    items: [
-      { label: "Зөөлөн хот уулзалт, ярилцлага", href: "/work/training/meetings", desc: "Хот байгуулалтын сэдвээр зохион байгуулж буй уулзалт, ярилцлагууд" },
-    ],
-  },
-  {
-    title: "Зөвлөх үйлчилгээ",
-    items: [
-      { label: "Сургалт, арга хэмжээ зохион байгуулах", href: "/work/consulting/events", desc: "Байгууллага, нийгэмлэгт зориулсан сургалт, семинар" },
-      { label: "Туршлага судлах аялал", href: "/work/consulting/study-tours", desc: "Дэлхийн шилдэг хот байгуулалтын туршлагыг биечлэн судлах аялал" },
-      { label: "Орчуулгын үйлчилгээ", href: "/work/consulting/translation", desc: "Хот байгуулалт, архитектурын чиглэлийн мэргэжлийн орчуулга" },
-    ],
-  },
-];
+export default async function WorkPage() {
+  const content = await getContent();
 
-export default function WorkPage() {
+  const sections = [
+    {
+      label: "Төсөл, хөтөлбөр",
+      title: "Зөөлөн хот фестиваль",
+      desc: content.festival_intro,
+      href: "/work/festival",
+      image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200&q=80",
+    },
+    {
+      label: "Уулзалт",
+      title: "Зөөлөн хот уулзалт, ярилцлага",
+      desc: content.meetings_intro,
+      href: "/work/meetings",
+      image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1200&q=80",
+    },
+    {
+      label: "Зөвлөх үйлчилгээ",
+      title: "Чадавх бэхжүүлэх сургалт",
+      desc: content.training_intro,
+      href: "/work/training",
+      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200&q=80",
+    },
+    {
+      label: "Зөвлөх үйлчилгээ",
+      title: "Туршлага судлах аялал",
+      desc: content.tours_intro,
+      href: "/work/study-tours",
+      image: "https://images.unsplash.com/photo-1552560880-2482cef14240?w=1200&q=80",
+    },
+    {
+      label: "Зөвлөх үйлчилгээ",
+      title: "Орчуулгын үйлчилгээ",
+      desc: content.translation_intro,
+      href: "/work/translation",
+      image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1200&q=80",
+    },
+  ];
+
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#c4734a" }}>
-            Үйл ажиллагаа
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold">Бидний ажил</h1>
-        </div>
-      </section>
+      <PageHeader label="Үйл ажиллагаа" title="Бидний ажил" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {categories.map((cat, i) => (
-            <div key={cat.title} className={i > 0 ? "mt-20" : ""}>
-              <div className="mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-3">{cat.title}</h2>
-                <div className="w-10 h-1" style={{ backgroundColor: "#c4734a" }} />
+      <section className="py-16 sm:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          {sections.map((s, i) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className="group grid grid-cols-1 md:grid-cols-12 gap-8 py-12 border-b border-[#e7e2d9] items-center"
+            >
+              <div className="md:col-span-1 text-[#c8beac] font-semibold text-sm">
+                {String(i + 1).padStart(2, "0")}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {cat.items.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="group p-8 bg-white border border-stone-200 hover:border-[#c4734a] transition-colors"
-                  >
-                    <h3 className="font-bold text-lg text-stone-900 mb-3 group-hover:text-[#c4734a] transition-colors">
-                      {item.label}
-                    </h3>
-                    <p className="text-stone-600 text-sm leading-relaxed">{item.desc}</p>
-                    <span className="inline-block mt-4 text-sm font-semibold" style={{ color: "#c4734a" }}>
-                      Дэлгэрэнгүй →
-                    </span>
-                  </Link>
-                ))}
+              <div className="md:col-span-4 aspect-[3/2] overflow-hidden bg-stone-200">
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
               </div>
-            </div>
+              <div className="md:col-span-7">
+                <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-3" style={{ color: "#c4734a" }}>
+                  {s.label}
+                </p>
+                <h2 className="text-2xl sm:text-4xl font-bold tracking-tight group-hover:text-[#c4734a] transition-colors">
+                  {s.title}
+                </h2>
+                <p className="text-[#6b655c] mt-4 leading-relaxed max-w-2xl">{s.desc}</p>
+              </div>
+            </Link>
           ))}
         </div>
       </section>

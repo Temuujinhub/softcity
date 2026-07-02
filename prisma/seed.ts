@@ -70,6 +70,73 @@ async function main() {
     },
   });
 
+  // Partners (Excel: Хамтрагч байгууллагууд)
+  const partners = [
+    { name: "Хот байгуулалт, барилга, орон сууцжуулалтын яам", url: "" },
+    { name: "Think Softer Planning", url: "https://www.thinksofter.com" },
+    { name: "UN-Habitat Mongolia", url: "https://unhabitat.org" },
+    { name: "Монголын Архитекторуудын Эвлэл", url: "" },
+    { name: "GerHub", url: "https://www.gerhub.org" },
+    { name: "Meguun Media", url: "" },
+    { name: "Аясгал үл хөдлөх хөрөнгийн менежмент", url: "" },
+    { name: "Volcano", url: "" },
+  ];
+  const partnerCount = await prisma.partner.count();
+  if (partnerCount === 0) {
+    await prisma.partner.createMany({
+      data: partners.map((p, i) => ({ ...p, order: i })),
+    });
+  }
+
+  // Team placeholders
+  const teamCount = await prisma.teamMember.count();
+  if (teamCount === 0) {
+    await prisma.teamMember.createMany({
+      data: [
+        { name: "Баг гишүүн 1", role: "Гүйцэтгэх захирал", order: 0 },
+        { name: "Баг гишүүн 2", role: "Хөтөлбөрийн менежер", order: 1 },
+        { name: "Баг гишүүн 3", role: "Харилцаа холбооны мэргэжилтэн", order: 2 },
+      ],
+    });
+  }
+
+  // 2026 events
+  await prisma.event.upsert({
+    where: { slug: "soft-city-festival-2026" },
+    update: {},
+    create: {
+      title: "Зөөлөн хот фестиваль 2026",
+      slug: "soft-city-festival-2026",
+      description:
+        "Хот байгуулалтын мэргэжилтнүүд, судлаачид, олон нийтийг нэг дор нэгтгэж, мэдлэг, туршлага хуваалцах орон зай.",
+      location: "Улаанбаатар",
+      dateText: "2026 оны зун",
+      year: 2026,
+      confirmed: false,
+      registrationOpen: false,
+      published: true,
+      order: 0,
+    },
+  });
+
+  await prisma.event.upsert({
+    where: { slug: "soft-city-meetup-2026-1" },
+    update: {},
+    create: {
+      title: "Зөөлөн хот уулзалт, ярилцлага №1",
+      slug: "soft-city-meetup-2026-1",
+      description:
+        "Хот байгуулалт, нийтийн орон зай, тогтвортой амьдралын сэдвээр нээлттэй уулзалт.",
+      location: "Улаанбаатар",
+      dateText: "2026 оны хавар",
+      year: 2026,
+      confirmed: false,
+      registrationOpen: true,
+      published: true,
+      order: 1,
+    },
+  });
+
   console.log("✓ Seed completed!");
   console.log("Admin login: admin@softcity.mn / admin123");
 }
