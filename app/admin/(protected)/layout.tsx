@@ -8,12 +8,15 @@ export const metadata: Metadata = { title: "Админ | Зөөлөн хот" };
 
 const adminNav = [
   { href: "/admin", label: "Хяналтын самбар" },
+  { href: "/admin/content", label: "Контент" },
   { href: "/admin/articles", label: "Нийтлэл" },
+  { href: "/admin/events", label: "Арга хэмжээ" },
+  { href: "/admin/members", label: "Masterclass" },
+  { href: "/admin/team", label: "Манай баг" },
+  { href: "/admin/partners", label: "Хамтрагчид" },
   { href: "/admin/gallery", label: "Зургийн цомог" },
-  { href: "/admin/members", label: "Гишүүний агуулга" },
-  { href: "/admin/users", label: "Хэрэглэгчид" },
-  { href: "/admin/subscribers", label: "Мейл бүртгэл" },
-  { href: "/admin/settings", label: "Тохиргоо" },
+  { href: "/admin/users", label: "Гишүүд" },
+  { href: "/admin/subscribers", label: "Мейл захиалга" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

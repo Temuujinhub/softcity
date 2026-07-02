@@ -5,38 +5,33 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const navItems = [
-  { label: "НҮҮР", href: "/" },
-  { label: "БИДНИЙ ТҮҮХ", href: "/story" },
+interface NavChild {
+  label: string;
+  href: string;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+  children?: NavChild[];
+}
+
+const navItems: NavItem[] = [
+  { label: "Нүүр", href: "/" },
+  { label: "Бидний түүх", href: "/story" },
   {
-    label: "БИДНИЙ АЖИЛ",
+    label: "Бидний ажил",
     href: "/work",
     children: [
-      {
-        label: "Төсөл, хөтөлбөр",
-        children: [
-          { label: "Зөөлөн хот фестиваль 2025", href: "/work/projects/festival-2025" },
-          { label: "Зөөлөн хот фестиваль 2026", href: "/work/projects/festival-2026" },
-        ],
-      },
-      {
-        label: "Сургалт, семинар",
-        children: [
-          { label: "Зөөлөн хот уулзалт, ярилцлага", href: "/work/training/meetings" },
-        ],
-      },
-      {
-        label: "Зөвлөх үйлчилгээ",
-        children: [
-          { label: "Сургалт, арга хэмжээ", href: "/work/consulting/events" },
-          { label: "Туршлага судлах аялал", href: "/work/consulting/study-tours" },
-          { label: "Орчуулгын үйлчилгээ", href: "/work/consulting/translation" },
-        ],
-      },
+      { label: "Зөөлөн хот фестиваль", href: "/work/festival" },
+      { label: "Зөөлөн хот уулзалт, ярилцлага", href: "/work/meetings" },
+      { label: "Чадавх бэхжүүлэх сургалт", href: "/work/training" },
+      { label: "Туршлага судлах аялал", href: "/work/study-tours" },
+      { label: "Орчуулгын үйлчилгээ", href: "/work/translation" },
     ],
   },
   {
-    label: "МЭДЭЭЛЭЛ",
+    label: "Мэдээлэл",
     href: "/news",
     children: [
       { label: "Ярилцлага", href: "/news?category=interview" },
@@ -44,9 +39,10 @@ const navItems = [
       { label: "Мэдээ", href: "/news?category=news" },
     ],
   },
-  { label: "ЗУРГИЙН ЦОМОГ", href: "/gallery" },
-  { label: "НЭВТРЭХ", href: "/members" },
-  { label: "ХОЛБОО БАРИХ", href: "/contact" },
+  { label: "Зургийн цомог", href: "/gallery" },
+  { label: "Бүртгүүлэх", href: "/events" },
+  { label: "Гишүүнчлэл", href: "/members" },
+  { label: "Холбоо барих", href: "/contact" },
 ];
 
 export default function Nav() {
@@ -64,31 +60,41 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const transparent = isHome && !scrolled;
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const transparent = isHome && !scrolled && !menuOpen;
 
   return (
     <header
-      className="sticky top-0 z-50 transition-all duration-400"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: transparent ? "rgba(0,0,0,0)" : "white",
-        borderBottom: transparent ? "1px solid rgba(255,255,255,0.12)" : "1px solid #e7e5e4",
-        backdropFilter: transparent ? "none" : "none",
+        backgroundColor: transparent ? "rgba(0,0,0,0)" : "rgba(250,249,246,0.94)",
+        backdropFilter: transparent ? "none" : "blur(12px)",
+        borderBottom: transparent ? "1px solid rgba(255,255,255,0.14)" : "1px solid #e7e2d9",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-baseline gap-2 group">
             <span
-              className="font-bold text-xl tracking-tight transition-colors duration-300"
-              style={{ color: transparent ? "white" : "#1c1c1c" }}
+              className="font-bold text-lg tracking-tight transition-colors duration-300"
+              style={{ color: transparent ? "white" : "#141414" }}
             >
               ЗӨӨЛӨН ХОТ
+            </span>
+            <span
+              className="hidden sm:inline text-[10px] tracking-[0.25em] uppercase transition-colors duration-300"
+              style={{ color: transparent ? "rgba(255,255,255,0.6)" : "#8a8479" }}
+            >
+              Softcity Mongolia
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -98,38 +104,27 @@ export default function Nav() {
               >
                 <Link
                   href={item.href}
-                  className="px-3 py-2 text-xs font-semibold tracking-wide transition-colors duration-300"
-                  style={{ color: transparent ? "rgba(255,255,255,0.85)" : "#44403c" }}
+                  className="px-3 py-2 text-[13px] font-medium transition-colors duration-300 hover:opacity-70"
+                  style={{
+                    color: transparent ? "rgba(255,255,255,0.9)" : "#33302b",
+                    borderBottom:
+                      pathname === item.href
+                        ? `2px solid ${transparent ? "white" : "#c4734a"}`
+                        : "2px solid transparent",
+                  }}
                 >
                   {item.label}
                 </Link>
-                {"children" in item && activeDropdown === item.label && (
-                  <div className="absolute top-full left-0 bg-white border border-stone-200 shadow-lg min-w-[200px] py-2">
-                    {item.children?.map((group) => (
-                      "children" in group ? (
-                        <div key={group.label}>
-                          <div className="px-4 py-1 text-xs font-bold text-stone-500 uppercase tracking-wider mt-2">
-                            {group.label}
-                          </div>
-                          {group.children?.map((child) => (
-                            <Link
-                              key={child.label}
-                              href={child.href}
-                              className="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-50"
-                            >
-                              {child.label}
-                            </Link>
-                          ))}
-                        </div>
-                      ) : (
-                        <Link
-                          key={group.label}
-                          href={group.href || "#"}
-                          className="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-50"
-                        >
-                          {group.label}
-                        </Link>
-                      )
+                {item.children && activeDropdown === item.label && (
+                  <div className="absolute top-full left-0 bg-[#faf9f6] border border-[#e7e2d9] shadow-xl min-w-[260px] py-2">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.label}
+                        href={child.href}
+                        className="block px-5 py-2.5 text-sm text-[#33302b] hover:bg-[#f0ece3] hover:text-[#c4734a] transition-colors"
+                      >
+                        {child.label}
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -138,9 +133,10 @@ export default function Nav() {
             {session && (
               <button
                 onClick={() => signOut()}
-                className="px-3 py-2 text-xs font-semibold text-stone-500 hover:text-stone-900 tracking-wide"
+                className="px-3 py-2 text-[13px] font-medium transition-colors hover:opacity-70"
+                style={{ color: transparent ? "rgba(255,255,255,0.6)" : "#8a8479" }}
               >
-                ГАРАХ
+                Гарах
               </button>
             )}
           </nav>
@@ -148,7 +144,7 @@ export default function Nav() {
           {/* Mobile menu button */}
           <button
             className="lg:hidden p-2 transition-colors duration-300"
-            style={{ color: transparent ? "white" : "#374151" }}
+            style={{ color: transparent ? "white" : "#141414" }}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -163,43 +159,36 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-white border-t border-stone-200 px-4 py-4 space-y-2">
+        <div className="lg:hidden bg-[#faf9f6] border-t border-[#e7e2d9] px-5 py-6 space-y-1 max-h-[calc(100vh-72px)] overflow-y-auto">
           {navItems.map((item) => (
             <div key={item.label}>
               <Link
                 href={item.href}
-                className="block py-2 text-sm font-semibold text-stone-800"
+                className="block py-2.5 text-base font-semibold text-[#141414]"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
               </Link>
-              {"children" in item && item.children?.map((group) => (
-                "children" in group ? (
-                  <div key={group.label} className="pl-4">
-                    {group.children?.map((child) => (
-                      <Link
-                        key={child.label}
-                        href={child.href}
-                        className="block py-1.5 text-sm text-stone-600"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <Link
-                    key={group.label}
-                    href={group.href || "#"}
-                    className="block pl-4 py-1.5 text-sm text-stone-600"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {group.label}
-                  </Link>
-                )
+              {item.children?.map((child) => (
+                <Link
+                  key={child.label}
+                  href={child.href}
+                  className="block pl-4 py-2 text-sm text-[#6b655c]"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {child.label}
+                </Link>
               ))}
             </div>
           ))}
+          {session && (
+            <button
+              onClick={() => signOut()}
+              className="block py-2.5 text-sm text-[#8a8479]"
+            >
+              Гарах
+            </button>
+          )}
         </div>
       )}
     </header>

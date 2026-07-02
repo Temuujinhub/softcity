@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Зөөлөн хот — Softcity Mongolia
 
-## Getting Started
+Зөөлөн хотын шийдэл НҮТББ-ын албан ёсны вэбсайт. Next.js 16 + Prisma (PostgreSQL) + NextAuth.
 
-First, run the development server:
+## Ажиллуулах
 
 ```bash
+npm install
+npx prisma migrate deploy
+npm run db:seed        # админ хэрэглэгч + жишээ контент
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Шаардлагатай орчны хувьсагчид:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Хувьсагч | Тайлбар |
+| --- | --- |
+| `DATABASE_URL` | PostgreSQL холболтын хаяг |
+| `NEXTAUTH_SECRET` | NextAuth-ийн нууц түлхүүр |
+| `NEXTAUTH_URL` | Сайтын үндсэн URL |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Seed хийсний дараа админ нэвтрэлт: `admin@softcity.mn / admin123` (эхний нэвтрэлтийн дараа солино уу).
 
-## Learn More
+## Контентын удирдлага (CMS)
 
-To learn more about Next.js, take a look at the following resources:
+`/admin` хэсгээс сайтын бүх контентыг удирдана:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Контент** — нүүр, бидний түүх, ажил, гишүүнчлэл, холбоо барих хуудсуудын бүх текст, нүүрний слайд зургууд
+- **Нийтлэл** — мэдээ, ярилцлага, шинэ бүтээл
+- **Арга хэмжээ** — үйл явдлын жагсаалт, тов гарсан эсэх, бүртгэл нээх/хаах, бүртгүүлсэн хүмүүсийн жагсаалт (CSV татах)
+- **Masterclass** — гишүүдэд зориулсан видео хичээлүүд
+- **Манай баг**, **Хамтрагчид**, **Зургийн цомог**, **Гишүүд**, **Мейл захиалга**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Видео контент (YouTube)
 
-## Deploy on Vercel
+Видеог YouTube суваг дээрээ **Unlisted** тохиргоотой байршуулаад линкийг нь админы Masterclass хэсэгт буулгана. Сайт `watch`, `youtu.be`, `shorts` зэрэг дурын хэлбэрийн линкийг таньж embed тоглуулагчаар харуулна.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Гишүүнчлэл
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Зочид `/register` хуудсаар имэйл хаягаараа бүртгүүлж, нэвтэрсний дараа `/members` хэсгээс masterclass хичээлүүдийг үзнэ. Нэвтрээгүй хэрэглэгчид зөвхөн хичээлийн нэрсийг (түгжээтэй) харна.
+
+## Арга хэмжээний бүртгэл
+
+`/events` хуудсанд арга хэмжээнүүд оноор бүлэглэгдэж, тов гарсан нь тодоор харагдана. «Бүртгэл нээлттэй» арга хэмжээн дээр дарахад нэр/имэйл/утасны цонх гарч бүртгэнэ.

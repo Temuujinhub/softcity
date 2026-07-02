@@ -1,133 +1,132 @@
-import { prisma } from "@/lib/prisma";
+import { getContent } from "@/lib/content";
+import PageHeader from "@/components/PageHeader";
 import ContactForm from "./ContactForm";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = { title: "Холбоо барих | Зөөлөн хот" };
 export const dynamic = "force-dynamic";
 
-const CONTACT_DEFAULTS = {
-  contact_email: "info@softcity.mn",
-  contact_phone: "",
-  contact_address: "",
-  contact_facebook: "https://www.facebook.com/softcitymongolia",
-};
-
-async function getContactSettings() {
-  try {
-    const rows = await prisma.siteSettings.findMany({
-      where: { key: { in: Object.keys(CONTACT_DEFAULTS) } },
-    });
-    const result = { ...CONTACT_DEFAULTS };
-    for (const row of rows) {
-      if (row.key in result) (result as Record<string, string>)[row.key] = row.value;
-    }
-    return result;
-  } catch {
-    return CONTACT_DEFAULTS;
-  }
-}
-
-const staticLinks = [
-  { label: "Gehl Architects", href: "https://www.gehlpeople.com" },
-  { label: "Think Softer", href: "https://www.thinksofter.com" },
-  { label: "Project for Public Spaces", href: "https://www.pps.org" },
-  { label: "Congress for the New Urbanism", href: "https://www.cnu.org" },
-];
-
 export default async function ContactPage() {
-  const contact = await getContactSettings();
+  const content = await getContent();
 
-  const externalLinks = [
-    { label: "Facebook", href: contact.contact_facebook },
-    ...staticLinks,
+  const socialLinks = [
+    { label: "Facebook", href: content.contact_facebook },
+    { label: "Instagram", href: content.contact_instagram },
+    { label: "LinkedIn", href: content.contact_linkedin },
+  ].filter((l) => l.href);
+
+  const usefulLinks = [
+    { label: "Gehl Architects", href: "https://www.gehlpeople.com" },
+    { label: "Think Softer", href: "https://www.thinksofter.com" },
   ];
 
   return (
     <>
-      <section className="bg-stone-900 text-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "#c4734a" }}>
-            Харилцаа холбоо
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold">Холбоо барих</h1>
-        </div>
-      </section>
+      <PageHeader label="Харилцаа холбоо" title="Холбоо барих" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact info */}
             <div>
-              <h2 className="text-2xl font-bold text-stone-900 mb-6">Холбоо барих</h2>
-              <div className="space-y-4 text-stone-600">
+              <div className="space-y-8">
                 <div>
-                  <p className="font-semibold text-stone-900">Байгууллага</p>
-                  <p>Зөөлөн хотын шийдэл НҮТББ</p>
+                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-2">
+                    Байгууллага
+                  </p>
+                  <p className="text-lg font-medium">Зөөлөн хотын шийдэл НҮТББ</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-stone-900">Имэйл</p>
-                  <a href={`mailto:${contact.contact_email}`} className="hover:underline" style={{ color: "#c4734a" }}>
-                    {contact.contact_email}
+                  <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-2">
+                    Имэйл
+                  </p>
+                  <a
+                    href={`mailto:${content.contact_email}`}
+                    className="text-lg font-medium hover:underline"
+                    style={{ color: "#c4734a" }}
+                  >
+                    {content.contact_email}
                   </a>
                 </div>
-                {contact.contact_phone && (
+                {content.contact_phone && (
                   <div>
-                    <p className="font-semibold text-stone-900">Утас</p>
-                    <a href={`tel:${contact.contact_phone}`} className="hover:underline" style={{ color: "#c4734a" }}>
-                      {contact.contact_phone}
+                    <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-2">
+                      Утас
+                    </p>
+                    <a
+                      href={`tel:${content.contact_phone}`}
+                      className="text-lg font-medium hover:underline"
+                      style={{ color: "#c4734a" }}
+                    >
+                      {content.contact_phone}
                     </a>
                   </div>
                 )}
-                {contact.contact_address && (
+                {content.contact_address && (
                   <div>
-                    <p className="font-semibold text-stone-900">Хаяг</p>
-                    <p>{contact.contact_address}</p>
+                    <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-2">
+                      Хаяг
+                    </p>
+                    <p className="text-lg">{content.contact_address}</p>
                   </div>
                 )}
-                <div>
-                  <p className="font-semibold text-stone-900">Facebook</p>
-                  <a
-                    href={contact.contact_facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
-                    style={{ color: "#c4734a" }}
-                  >
-                    {contact.contact_facebook.replace("https://www.", "")}
-                  </a>
-                </div>
+                {socialLinks.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-3">
+                      Сошиал сувгууд
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {socialLinks.map((l) => (
+                        <a
+                          key={l.label}
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="border border-[#d5cec2] px-5 py-2.5 text-sm font-semibold hover:border-[#c4734a] hover:text-[#c4734a] transition-colors"
+                        >
+                          {l.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <ContactForm />
             </div>
 
-            {/* Links + partner */}
+            {/* Links + collaborate */}
             <div>
-              <h2 className="text-2xl font-bold text-stone-900 mb-6">Хэрэгтэй холбооснууд</h2>
-              <ul className="space-y-3">
-                {externalLinks.map((l) => (
+              <h2 className="text-xs font-semibold tracking-[0.25em] uppercase text-[#8a8479] mb-6">
+                Хэрэгтэй холбооснууд
+              </h2>
+              <ul className="space-y-px bg-[#e7e2d9] border border-[#e7e2d9]">
+                {usefulLinks.map((l) => (
                   <li key={l.label}>
                     <a
                       href={l.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-between p-4 border border-stone-200 hover:border-[#c4734a] transition-colors group"
+                      className="flex items-center justify-between p-5 bg-[#faf9f6] hover:bg-white transition-colors group"
                     >
-                      <span className="font-semibold text-stone-800 group-hover:text-[#c4734a] transition-colors">
+                      <span className="font-semibold group-hover:text-[#c4734a] transition-colors">
                         {l.label}
                       </span>
-                      <span className="text-stone-400 group-hover:text-[#c4734a] transition-colors">↗</span>
+                      <span className="text-[#c8beac] group-hover:text-[#c4734a] transition-colors">↗</span>
                     </a>
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-12 p-8 bg-stone-900 text-white">
-                <h3 className="font-bold text-xl mb-3">Хамтран ажиллах</h3>
-                <p className="text-stone-300 text-sm leading-relaxed mb-6">
-                  Зөөлөн хотын шийдэл НҮТББ-тай хамтрах, санхүүжилт, хандив өгөх болон бусад асуудлаар холбоо бариарай.
+              <div className="mt-10 p-10 bg-[#141414] text-white">
+                <h3 className="font-bold text-2xl mb-4 tracking-tight">Хамтран ажиллах</h3>
+                <p className="text-[#b5afa5] text-sm leading-relaxed mb-8">
+                  Зөөлөн хоттой хамтрах, санхүүжилт, хандив өгөх болон бусад асуудлаар холбоо
+                  бариарай.
                 </p>
                 <a
-                  href={`mailto:${contact.contact_email}`}
-                  className="inline-block px-6 py-3 font-semibold text-sm transition-colors"
+                  href={`mailto:${content.contact_email}`}
+                  className="inline-block px-7 py-3.5 font-semibold text-sm text-white hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: "#c4734a" }}
                 >
                   Имэйл илгээх

@@ -11,6 +11,16 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
+  const all = searchParams.get("all") === "1";
+
+  if (all) {
+    // Админд: ноорог агуулга ч харагдана
+    if ((session.user as { role?: string }).role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const contents = await prisma.memberContent.findMany({ orderBy: { createdAt: "desc" } });
+    return NextResponse.json(contents);
+  }
 
   if (slug) {
     const content = await prisma.memberContent.findUnique({ where: { slug } });
