@@ -109,6 +109,18 @@ model EventRegistration {
   @@unique([eventId, email])
 }
 
+model BoothRequest {
+  id        String   @id @default(cuid())
+  boothNumber String
+  orgName   String
+  phone     String
+  email     String
+  message   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model TeamMember {
   id        String   @id @default(cuid())
   name      String

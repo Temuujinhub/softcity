@@ -4,7 +4,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [articleCount, galleryCount, subscriberCount, userCount, eventCount, regCount, masterclassCount] =
+  const [articleCount, galleryCount, subscriberCount, userCount, eventCount, regCount, masterclassCount, boothPendingCount] =
     await Promise.all([
       prisma.article.count(),
       prisma.galleryImage.count(),
@@ -13,6 +13,7 @@ export default async function AdminDashboard() {
       prisma.event.count(),
       prisma.eventRegistration.count(),
       prisma.memberContent.count(),
+      prisma.boothRequest.count({ where: { status: "pending" } }),
     ]);
 
   const stats = [
@@ -23,6 +24,7 @@ export default async function AdminDashboard() {
     { label: "Арга хэмжээ", count: eventCount, href: "/admin/events", color: "bg-orange-50 border-orange-200" },
     { label: "Арга хэмжээний бүртгэл", count: regCount, href: "/admin/events", color: "bg-rose-50 border-rose-200" },
     { label: "Masterclass", count: masterclassCount, href: "/admin/members", color: "bg-teal-50 border-teal-200" },
+    { label: "Талбайн хүлээгдэж буй хүсэлт", count: boothPendingCount, href: "/admin/booths", color: "bg-red-50 border-red-200" },
   ];
 
   const recentArticles = await prisma.article.findMany({

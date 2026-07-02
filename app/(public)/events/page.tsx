@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { getContent } from "@/lib/content";
 import PageHeader from "@/components/PageHeader";
 import EventsClient from "./EventsClient";
+import BoothRentSection from "./BoothRentSection";
 
 export const metadata: Metadata = { title: "Арга хэмжээнд бүртгүүлэх | Зөөлөн хот" };
 export const dynamic = "force-dynamic";
@@ -16,6 +18,7 @@ export default async function EventsPage() {
   } catch {
     // DB unavailable
   }
+  const content = await getContent();
 
   return (
     <>
@@ -35,6 +38,11 @@ export default async function EventsPage() {
           confirmed: e.confirmed,
           registrationOpen: e.registrationOpen,
         }))}
+      />
+      <BoothRentSection
+        title={content.booth_title}
+        intro={content.booth_intro}
+        mapUrl={content.booth_map_url}
       />
     </>
   );

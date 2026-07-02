@@ -9,6 +9,7 @@ interface Field {
   multiline?: boolean;
   help?: string;
   slides?: boolean;
+  image?: boolean;
 }
 
 interface Group {
@@ -83,6 +84,20 @@ const GROUPS: Group[] = [
         label: "Орчуулгын төрлүүд",
         multiline: true,
         help: "Мөр бүрд нэг төрөл. Хоосон мөрийн дараах текст тайлбар болж харагдана.",
+      },
+    ],
+  },
+  {
+    key: "booth",
+    label: "Талбай түрээс",
+    fields: [
+      { key: "booth_title", label: "Хэсгийн гарчиг" },
+      { key: "booth_intro", label: "Танилцуулга текст", multiline: true },
+      {
+        key: "booth_map_url",
+        label: "Талбайн зураглалын зураг (URL)",
+        image: true,
+        help: "Одоогоор зохиомол зураглал (/images/booth-map.svg) тавьсан. Жинхэнэ footprint зургаа байршуулаад URL-ийг нь энд солино уу.",
       },
     ],
   },
@@ -207,6 +222,15 @@ export default function AdminContentPage() {
               />
             )}
             {field.help && <p className="text-xs text-stone-400 mt-1">{field.help}</p>}
+
+            {/* Image preview */}
+            {field.image && values[field.key] && (
+              <img
+                src={values[field.key]}
+                alt="Урьдчилан харах"
+                className="mt-3 max-h-64 border border-stone-200 bg-white"
+              />
+            )}
 
             {/* Slide preview */}
             {field.slides && slides.length > 0 && (

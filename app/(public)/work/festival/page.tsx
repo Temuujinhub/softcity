@@ -41,13 +41,21 @@ export default async function FestivalPage() {
               <p className="text-[#8a8479] mb-8">
                 Хөтөлбөр, зочин илтгэгчдийн мэдээлэл удахгүй зарлагдана.
               </p>
-              <Link
-                href="/events"
-                className="inline-block text-white px-7 py-3.5 font-semibold text-sm hover:opacity-90 transition-opacity"
-                style={{ backgroundColor: "#c4734a" }}
-              >
-                Бүртгүүлэх
-              </Link>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href="/events"
+                  className="inline-block text-white px-7 py-3.5 font-semibold text-sm hover:opacity-90 transition-opacity"
+                  style={{ backgroundColor: "#c4734a" }}
+                >
+                  Бүртгүүлэх
+                </Link>
+                <Link
+                  href="/events#booth-rent"
+                  className="inline-block border border-[#141414] px-7 py-3.5 font-semibold text-sm hover:bg-[#141414] hover:text-white transition-colors"
+                >
+                  Үзэсгэлэнгийн талбай түрээслэх
+                </Link>
+              </div>
             </div>
           </details>
 

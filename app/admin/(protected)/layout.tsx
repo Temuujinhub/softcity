@@ -11,6 +11,7 @@ const adminNav = [
   { href: "/admin/content", label: "Контент" },
   { href: "/admin/articles", label: "Нийтлэл" },
   { href: "/admin/events", label: "Арга хэмжээ" },
+  { href: "/admin/booths", label: "Талбай түрээс" },
   { href: "/admin/members", label: "Masterclass" },
   { href: "/admin/team", label: "Манай баг" },
   { href: "/admin/partners", label: "Хамтрагчид" },
